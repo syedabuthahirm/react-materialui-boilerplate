@@ -12,12 +12,10 @@ import { connect } from "react-redux";
 
 import Home from "./containers/Home";
 import Setting from "./containers/Setting";
+import Signin from "./containers/Signin";
+
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
-
-const Signin = props => {
-  return <div>Sign in</div>;
-};
 
 const NotFound = () => {
   return <div>NotFound</div>;
@@ -51,31 +49,33 @@ const EmptyRoute = ({ component: Component, ...rest }) => {
 
 class App extends Component {
   state = {
-    auth: true
+    auth: false
   };
 
   render() {
-    const { settings } = this.props;
+    const { settings, auth } = this.props;
 
     return (
       <MuiThemeProvider theme={settings.theme}>
         <CssBaseline />
-        <Router>
-          {this.state.auth ? (
-            <Switch>
-              <DashboardRoute path="/dashboard" component={Home} />
-              <DashboardRoute path="/setting" component={Setting} />
-              <Route path="/signin" render={() => <Redirect to="/" />} />
-              <DashboardRoute exact path="/" component={Home} />
-              <EmptyRoute component={NotFound} />
-            </Switch>
-          ) : (
-            <Switch>
-              <EmptyRoute path="/signin" component={Signin} />
-              <Redirect to="/signin" />
-            </Switch>
-          )}
-        </Router>
+        <div style={{ height: "100vh" }}>
+          <Router>
+            {auth.authenticate ? (
+              <Switch>
+                <DashboardRoute path="/dashboard" component={Home} />
+                <DashboardRoute path="/setting" component={Setting} />
+                <Route path="/signin" render={() => <Redirect to="/" />} />
+                <DashboardRoute exact path="/" component={Home} />
+                <EmptyRoute component={NotFound} />
+              </Switch>
+            ) : (
+              <Switch>
+                <EmptyRoute path="/signin" component={Signin} />
+                <Redirect to="/signin" />
+              </Switch>
+            )}
+          </Router>
+        </div>
       </MuiThemeProvider>
     );
   }
@@ -85,7 +85,8 @@ App.propTypes = {};
 
 const mapStateToProps = state => {
   return {
-    settings: state.settings
+    settings: state.settings,
+    auth: state.auth
   };
 };
 
