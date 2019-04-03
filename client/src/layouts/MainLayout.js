@@ -1,12 +1,9 @@
 import React, { Fragment, Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import { logout } from "../store/reducers/authenticate";
 
 const drawerWidth = 240;
 
@@ -48,7 +45,6 @@ class MainLayout extends Component {
       <Fragment>
         <div className={classes.root}>
           <Header
-            logout={this.props.logout}
             handleToggleDrawer={this.handleToggleDrawer}
           />
           <main
@@ -65,16 +61,4 @@ class MainLayout extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      logout: () => logout()
-    },
-    dispatch
-  );
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(withStyles(styles)(MainLayout));
+export default withStyles(styles)(MainLayout);

@@ -48,7 +48,7 @@ const Header = props => {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <IconButton onClick={props.logout} color="inherit">
+        <IconButton color="inherit">
           <PersonIcon />
         </IconButton>
       </Toolbar>

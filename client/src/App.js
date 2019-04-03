@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Redirect
+  Switch
 } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
@@ -12,7 +10,6 @@ import { connect } from "react-redux";
 
 import Home from "./containers/Home";
 import Setting from "./containers/Setting";
-import Signin from "./containers/Signin";
 
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
@@ -48,32 +45,20 @@ const EmptyRoute = ({ component: Component, ...rest }) => {
 };
 
 class App extends Component {
-  state = {
-    auth: false
-  };
-
   render() {
-    const { settings, auth } = this.props;
+    const { settings } = this.props;
 
     return (
       <MuiThemeProvider theme={settings.theme}>
         <CssBaseline />
         <div style={{ height: "100vh" }}>
           <Router>
-            {auth.authenticate ? (
-              <Switch>
-                <DashboardRoute path="/dashboard" component={Home} />
-                <DashboardRoute path="/setting" component={Setting} />
-                <Route path="/signin" render={() => <Redirect to="/" />} />
-                <DashboardRoute exact path="/" component={Home} />
-                <EmptyRoute component={NotFound} />
-              </Switch>
-            ) : (
-              <Switch>
-                <EmptyRoute path="/signin" component={Signin} />
-                <Redirect to="/signin" />
-              </Switch>
-            )}
+            <Switch>
+              <DashboardRoute path="/dashboard" component={Home} />
+              <DashboardRoute path="/setting" component={Setting} />
+              <DashboardRoute exact path="/" component={Home} />
+              <EmptyRoute component={NotFound} />
+            </Switch>
           </Router>
         </div>
       </MuiThemeProvider>
@@ -81,12 +66,9 @@ class App extends Component {
   }
 }
 
-App.propTypes = {};
-
 const mapStateToProps = state => {
   return {
     settings: state.settings,
-    auth: state.auth
   };
 };
 
