@@ -10,14 +10,20 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Switch from "@material-ui/core/Switch";
 import PaletteIcon from "@material-ui/icons/Palette";
 import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 
-import { toggleThemeMode, swapThemeColors } from "../store/reducers/settings";
+import { toggleThemeMode, swapThemeColors, isDarkMode, isColorSwaped } from "./settingsReducer";
 
-const Settings = props => (
+export default function Setting() {
+
+  const darkMode = useSelector(isDarkMode);
+  const colorSwaped = useSelector(isColorSwaped);
+
+  const dispatch = useDispatch();
+
+  return (
   <div>
-    <Typography variant="headline">Settings</Typography>
+    <Typography variant="h5">Settings</Typography>
     <Card>
       <CardContent>
         <List>
@@ -28,8 +34,8 @@ const Settings = props => (
             <ListItemText primary="Dark Mode" />
             <ListItemSecondaryAction>
               <Switch
-                onChange={(e, checked) => props.toggleThemeMode(checked)}
-                checked={props.settings.darkMode}
+                onChange={(e, checked) =>  dispatch(toggleThemeMode(checked))}
+                checked={darkMode}
               />
             </ListItemSecondaryAction>
           </ListItem>
@@ -40,34 +46,13 @@ const Settings = props => (
             <ListItemText primary="Swap Colors" />
             <ListItemSecondaryAction>
               <Switch
-                onChange={(e, checked) => props.swapThemeColors(checked)}
-                checked={props.settings.colorsSwaped}
+                onChange={(e, checked) => dispatch(swapThemeColors(checked))}
+                checked={colorSwaped}
               />
             </ListItemSecondaryAction>
           </ListItem>
         </List>
       </CardContent>
     </Card>
-  </div>
-);
-
-const mapStateToProps = state => {
-  return {
-    settings: state.settings
-  };
+  </div>);
 };
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      toggleThemeMode: checked => toggleThemeMode(checked),
-      swapThemeColors: checked => swapThemeColors(checked)
-    },
-    dispatch
-  );
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Settings);

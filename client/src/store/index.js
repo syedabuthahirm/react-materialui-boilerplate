@@ -1,6 +1,11 @@
-import { createStore, applyMiddleware } from "redux";
-import logger from "redux-logger";
+import { configureStore } from '@reduxjs/toolkit';
 
-import rootReducer from "./reducers";
+import settings from "../containers/Setting/settingsReducer";
+import counter from "../containers/Home/counterReducer"
 
-export default createStore(rootReducer, applyMiddleware(logger));
+export default configureStore({
+  reducer: {
+    settings: settings,
+    counter: counter,
+  },
+});
