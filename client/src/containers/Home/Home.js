@@ -4,12 +4,16 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 
-import { increment, decrement } from "../store/reducers/stepCounter";
+import { increment, decrement, getCounter } from "./counterReducer";
+import { useSelector, useDispatch } from "react-redux";
 
-const Home = props => {
+export default function Home() {
+
+  const counter = useSelector(getCounter);
+
+  const dispatch = useDispatch();
+
   return (
     <div
       style={{
@@ -20,25 +24,24 @@ const Home = props => {
     >
       <Card>
         <CardContent>
-          <Typography variant="headline" headlineMapping={"h1"}>
+          <Typography variant="h5">
             Redux Example
           </Typography>
           <Typography
             align="center"
-            variant="subheading"
-            headlineMapping={"h1"}
+            variant="subtitle1"
           >
-            Counter: {props.stepCounter.counter}
+            Counter: {counter}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button color="primary" variant="contained" onClick={props.increment}>
+          <Button color="primary" variant="contained" onClick={() => dispatch(increment())}>
             Increment
           </Button>
           <Button
             color="secondary"
             variant="contained"
-            onClick={props.decrement}
+            onClick={() => dispatch(decrement())}
           >
             Decrement
           </Button>
@@ -47,24 +50,3 @@ const Home = props => {
     </div>
   );
 };
-
-const mapStateToProps = state => {
-  return {
-    stepCounter: state.stepCounter
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      increment: () => increment(),
-      decrement: () => decrement()
-    },
-    dispatch
-  );
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);

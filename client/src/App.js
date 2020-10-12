@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -6,13 +6,16 @@ import {
 } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import { connect } from "react-redux";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { useSelector } from 'react-redux';
 
-import Home from "./containers/Home";
-import Setting from "./containers/Setting";
+import Home from "./containers/Home/Home";
+import Setting from "./containers/Setting/Setting";
 
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
+
+import { getTheme } from "./containers/Setting/settingsReducer";
 
 const NotFound = () => {
   return <div>NotFound</div>;
@@ -44,12 +47,12 @@ const EmptyRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-class App extends Component {
-  render() {
-    const { settings } = this.props;
+export default function App() {
 
-    return (
-      <MuiThemeProvider theme={settings.theme}>
+  const theTheme = useSelector(getTheme);
+
+     return (
+      <MuiThemeProvider theme={createMuiTheme(theTheme)}>
         <CssBaseline />
         <div style={{ height: "100vh" }}>
           <Router>
@@ -63,16 +66,4 @@ class App extends Component {
         </div>
       </MuiThemeProvider>
     );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    settings: state.settings,
-  };
 };
-
-export default connect(
-  mapStateToProps,
-  null
-)(App);

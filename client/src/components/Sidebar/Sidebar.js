@@ -15,7 +15,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   drawerPaper: {
     position: "fixed",
-    top: theme.spacing.unit * 8,
+    top: theme.spacing(8),
     whiteSpace: "nowrap",
     width: drawerWidth,
     transition: theme.transitions.create("width", {
@@ -29,9 +29,9 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    width: theme.spacing.unit * 8,
+    width: theme.spacing(8),
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 9
+      width: theme.spacing(9)
     }
   }
 });
@@ -63,7 +63,7 @@ const Sidebar = props => {
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary="Orders" />
+            <ListItemText primary="Settings" />
           </ListItem>
         </Link>
       </List>
